@@ -23,13 +23,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
+          args:
             - "-H"
             - "0.0.0.0"
             - "-p"
             - "6666"
             - "-s"
-            - {{ include "irc-slack.fullname" . | quote }}
+            - "{{ template "irc-slack.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local"
           ports:
             - name: http
               containerPort: 6666
